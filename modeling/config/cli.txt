@@ -1,0 +1,3 @@
+snowpack -c snowpack_v20220206 -e 2021-04-29T00:00 -b 2020-11-01T00:00
+
+/bin/meteoio_timeseries -c meteoio_v20220206 -b 2020-11-01T00:00:00 -e 2021-04-30T00:00:00

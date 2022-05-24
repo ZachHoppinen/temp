@@ -1,0 +1,7 @@
+data/banner/
+modeling/apps/
+*.smet
+*.sno
+*.pro
+*.json
+*.DS_Store
