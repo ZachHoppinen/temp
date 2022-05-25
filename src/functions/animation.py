@@ -12,7 +12,7 @@ constant_dir = expanduser('~/Documents/temp/src/functions/constants/')
 with open(join(constant_dir, 'sensor_heights.pkl'), 'rb') as f:
     sensor_heights = pickle.load(f)
 
-def plottimeseries(ts_arr, sd_arr, t_arr, air_arr):
+def plottimeseries(ts_arr, sd_arr, t_arr, air_arr, title):
   # Clear the current plot figure
   plt.clf()
   plt.ylabel("Heights")
@@ -49,14 +49,16 @@ def plottimeseries(ts_arr, sd_arr, t_arr, air_arr):
   ax2.set_axis_off()
   ax2.set_ylabel('Free Air')
 
-  plt.title('Measured Temps')
+  plt.title(title)
 
   return plt
 
 def prep_arr(arr, old_arr,sd, old_sd, t, old_t, old_air):
   heights_temps = {sensor_heights[col]: temp for (col, temp) in arr[air_temp_cols].items() if sensor_heights[col] != 2}
   air_temp = arr['air_temp_1']
-  arr = np.array(list(heights_temps.values())).reshape(len(heights_temps.values()),-1)
+  heights_temps = list(heights_temps.values())
+  heights_temps.reverse()
+  arr = np.array(heights_temps).reshape(len(heights_temps),-1)
 
   if old_arr is not None:
     ts_arr = np.hstack([old_arr, arr])
@@ -81,18 +83,17 @@ def prep_arr(arr, old_arr,sd, old_sd, t, old_t, old_air):
   return ts_arr, old_sd, old_t, old_air
 
 
-def animate(k, df):
+def animate(k, df, title):
     global air_temp_cols
     air_temp_cols = [c for c in df.columns if 'air_temp' in c]
     global ts_arr, sd_arr, t_arr, air_arr
     sd = df.iloc[k]['snow_depth_1']/1000
     t = df.index[k]
-    if k%50 == 0:
+    if k%200 == 0:
         print(k)
 
     if k== 0:
         ts_arr, sd_arr, t_arr, air_arr = None,None,None,None
     ts_arr, sd_arr, t_arr, air_arr = prep_arr(df[air_temp_cols].iloc[k], ts_arr, sd = sd, old_sd = sd_arr ,t= t, old_t = t_arr, old_air = air_arr)
-    
     if k!=0:
-        plottimeseries(ts_arr, sd_arr, t_arr, air_arr)
+        plottimeseries(ts_arr, sd_arr, t_arr, air_arr, title = title)
