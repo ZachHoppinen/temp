@@ -5,3 +5,5 @@ modeling/apps/
 *.pro
 *.json
 *.DS_Store
+*.pkl
+*.html
