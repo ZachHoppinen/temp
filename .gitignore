@@ -9,3 +9,4 @@ modeling/apps/
 *.html
 *.csv
 *.gif
+figures/animations/*.gif
