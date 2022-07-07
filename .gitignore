@@ -7,3 +7,5 @@ modeling/apps/
 *.DS_Store
 *.pkl
 *.html
+*.csv
+*.gif

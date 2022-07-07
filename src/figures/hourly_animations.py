@@ -28,9 +28,9 @@ fig_dir = '/Users/zachkeskinen/Documents/temp/figures/'
 anim_dir = '/Users/zachkeskinen/Documents/temp/figures/animations/'
 
 anim = animation.FuncAnimation(plt.figure(dpi = 100), animate, frames=len(meas), fargs=(meas,'Measured Temps',),
-                              interval=0.1, repeat_delay = 3)
+                              interval=0.01, repeat_delay = 3)
 anim.save(join(anim_dir, 'hourly_meas.gif'))
 
 anim = animation.FuncAnimation(plt.figure(dpi = 100), animate, frames=len(model), fargs=(model,'Modeled Temps',),
-                              interval=0.1, repeat_delay = 3)
+                              interval=0.01, repeat_delay = 3)
 anim.save(join(anim_dir, 'hourly_modeled.gif'))
