@@ -1,5 +1,3 @@
-data/banner/
-modeling/apps/
 *.smet
 *.sno
 *.pro
@@ -10,3 +8,6 @@ modeling/apps/
 *.csv
 *.gif
 figures/animations/*.gif
+*/*/banner/
+modeling/apps/
+data/year1/banner/
