@@ -1,0 +1,6 @@
+"TOA5","30751","CR1000X","30751","CR1000X.Std.05.01","CPU:4comp_campbell_noheater.CR1X","16314","Minute"
+"TIMESTAMP","RECORD","SR01Up_Avg","SR01Dn_Avg","IR01Up_Avg","IR01Dn_Avg","NR01TC_Avg","NR01TK_Avg","NetRs_Avg","NetRl_Avg","Albedo_Avg","UpTot_Avg","DnTot_Avg","NetTot_Avg","IR01UpCo_Avg","IR01DnCo_Avg"
+"TS","RN","W/m2","W/m2","W/m2","W/m2","Deg C","K","W/m2","W/m2","W/m2","W/m2","W/m2","W/m2","W/m2","W/m2"
+"","","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg","Avg"
+"2021-11-17 10:37:00",29619,31.1,25.3,-42.01,-16.87,-12.4,260.7,5.796,-25.14,0.814,-10.91,8.43,-19.34,220.1,245.2
+"2021-11-17 10:38:00",29620,31.13,25.19,-42.22,-17.05,-12.35,260.8,5.936,-25.16,0.809,-11.09,8.14,-19.23,220.1,245.2

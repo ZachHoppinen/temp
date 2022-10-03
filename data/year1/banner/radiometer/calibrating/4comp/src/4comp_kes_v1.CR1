@@ -1,0 +1,139 @@
+'CR1000
+'Created by Short Cut (2.8)
+
+'Declare Variables and Units
+Public BattV
+Public SwUp
+Public SwDo
+Public LwUp
+Public LwDo
+Public CNR1TC
+Public CNR1TK
+Public NRadSw
+Public NRadLw
+Public Albedo
+Public UpTot
+Public DnTot
+Public NetTot
+Public LwUpCo
+Public LwDoCo
+
+Units BattV=Volts
+Units SwUp=W/m^2
+Units SwDo=W/m^2
+Units LwUp=W/m^2
+Units LwDo=W/m^2
+Units CNR1TC=Deg C
+Units CNR1TK=K
+Units NRadSw=W/m^2
+Units NRadLw=W/m^2
+Units Albedo=W/m^2
+Units UpTot=W/m^2
+Units DnTot=W/m^2
+Units NetTot=W/m^2
+Units LwUpCo=W/m^2
+Units LwDoCo=W/m^2
+
+'Define Data Tables
+DataTable(Table1,True,-1)
+	DataInterval(0,1,Min,10)
+	Average(1,SwUp,FP2,False)
+	Average(1,SwDo,FP2,False)
+	Average(1,LwUp,FP2,False)
+	Average(1,LwDo,FP2,False)
+	Average(1,CNR1TC,FP2,False)
+	Average(1,NRadSw,FP2,False)
+	Average(1,NRadLw,FP2,False)
+	Average(1,Albedo,FP2,False)
+	Average(1,LwUpCo,FP2,False)
+	Average(1,LwDoCo,FP2,False)
+EndTable
+
+DataTable(Table2,True,-1)
+	DataInterval(0,1440,Min,10)
+	Minimum(1,BattV,FP2,False,False)
+	Average(1,SwUp,FP2,False)
+	Average(1,SwDo,FP2,False)
+	Average(1,LwUp,FP2,False)
+	Average(1,LwDo,FP2,False)
+	Average(1,CNR1TC,FP2,False)
+	Average(1,CNR1TK,FP2,False)
+	Average(1,NRadSw,FP2,False)
+	Average(1,NRadLw,FP2,False)
+	Average(1,Albedo,FP2,False)
+	Average(1,UpTot,FP2,False)
+	Average(1,DnTot,FP2,False)
+	Average(1,NetTot,FP2,False)
+	Average(1,LwUpCo,FP2,False)
+	Average(1,LwDoCo,FP2,False)
+	Maximum(1,SwUp,FP2,False,True)
+	Maximum(1,SwDo,FP2,False,True)
+	Maximum(1,LwUp,FP2,False,True)
+	Maximum(1,LwDo,FP2,False,True)
+	Maximum(1,CNR1TC,FP2,False,True)
+	Maximum(1,CNR1TK,FP2,False,True)
+	Maximum(1,NRadSw,FP2,False,True)
+	Maximum(1,NRadLw,FP2,False,True)
+	Maximum(1,Albedo,FP2,False,True)
+	Maximum(1,UpTot,FP2,False,True)
+	Maximum(1,DnTot,FP2,False,True)
+	Maximum(1,NetTot,FP2,False,True)
+	Maximum(1,LwUpCo,FP2,False,True)
+	Maximum(1,LwDoCo,FP2,False,True)
+	Minimum(1,SwUp,FP2,False,True)
+	Minimum(1,SwDo,FP2,False,True)
+	Minimum(1,LwUp,FP2,False,True)
+	Minimum(1,LwDo,FP2,False,True)
+	Minimum(1,CNR1TC,FP2,False,True)
+	Minimum(1,CNR1TK,FP2,False,True)
+	Minimum(1,NRadSw,FP2,False,True)
+	Minimum(1,NRadLw,FP2,False,True)
+	Minimum(1,Albedo,FP2,False,True)
+	Minimum(1,UpTot,FP2,False,True)
+	Minimum(1,DnTot,FP2,False,True)
+	Minimum(1,NetTot,FP2,False,True)
+	Minimum(1,LwUpCo,FP2,False,True)
+	Minimum(1,LwDoCo,FP2,False,True)
+	StdDev(1,SwUp,FP2,False)
+	StdDev(1,SwDo,FP2,False)
+	StdDev(1,LwUp,FP2,False)
+	StdDev(1,LwDo,FP2,False)
+	StdDev(1,CNR1TC,FP2,False)
+	StdDev(1,CNR1TK,FP2,False)
+	StdDev(1,NRadSw,FP2,False)
+	StdDev(1,NRadLw,FP2,False)
+	StdDev(1,Albedo,FP2,False)
+	StdDev(1,UpTot,FP2,False)
+	StdDev(1,DnTot,FP2,False)
+	StdDev(1,NetTot,FP2,False)
+	StdDev(1,LwUpCo,FP2,False)
+	StdDev(1,LwDoCo,FP2,False)
+EndTable
+
+'Main Program
+BeginProg
+	Scan(5,Sec,1,0)
+		'Default Datalogger Battery Voltage measurement BattV
+		Battery(BattV)
+		'CNR1 Net Radiometer measurements SwUp, SwDo, LwUp, LwDo, CNR1TC, CNR1TK,
+		'NRadSw, NRadLw, Albedo, UpTot, DnTot, NetTot, LwUpCo, and LwDoCo
+		VoltDiff(SwUp,1,mV25,1,True,0,_60Hz,100,0)
+		VoltDiff(SwDo,1,mV25,2,True,0,_60Hz,100,0)
+		VoltDiff(LwUp,1,mV7_5,3,True,0,_60Hz,100,0)
+		VoltDiff(LwDo,1,mV7_5,4,True,0,_60Hz,100,0)
+		BrHalf4W(CNR1TC,1,mV25,mV25,5,1,1,2100,True,True,0,_60Hz,1,0)
+		PRT(CNR1TC,1,CNR1TC,1,0)
+		CNR1TK=CNR1TC+273.18
+		NRadSw=SwUp-SwDo
+		NRadLw=LwUp-LwDo
+		Albedo=SwDo/SwUp
+		UpTot=SwUp+LwUp
+		DnTot=SwDo+LwDo
+		NetTot=UpTot-DnTot
+		LwUpCo=LwUp+5.67*10^-8*CNR1TK^4
+		LwDoCo=LwDo+5.67*10^-8*CNR1TK^4
+		'Call Data Tables and Store Data
+		CallTable(Table1)
+		CallTable(Table2)
+	NextScan
+EndProg

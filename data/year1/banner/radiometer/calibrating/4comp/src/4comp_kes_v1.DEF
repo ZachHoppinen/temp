@@ -1,0 +1,56 @@
+9/27/2021
+16:35:56
+Created by Short Cut (2.8)
+Short Cut Program:  4comp_kes_v1.DEF
+
+-Wiring for CR1000-
+
+  CNR1 Net Radiometer
+    1H:  CM3 Up, Red
+    1L:  CM3 Up, Blue
+    1L:  Jumper to Ground
+    Ground:  Jumper to 1L
+    2H:  CM3 Down, White
+    2L:  CM3 Down, Black
+    2L:  Jumper to Ground
+    Ground:  Jumper to 2L
+    3H:  CG3 Up, Grey/Orange
+    3L:  CG3 Up, Yellow
+    3L:  Jumper to Ground
+    Ground:  Jumper to 3L
+    4H:  CG3 Down, Brown
+    4L:  CG3 Down, Green
+    4L:  Jumper to Ground
+    Ground:  Jumper to 4L
+    VX1 or EX1:  Black (4WPB100)
+    Ground:  CM3 and CG3, Clear
+    Ground:  PT-100, Clear
+    5H:  HI pin (4WPB100)
+    5L:  LO pin (4WPB100)
+    Ground:  GND pin (4WPB100)
+    6H:  PT-100, Yellow
+    6L:  PT-100, Green
+
+           (4WPB100) L:  PT-100, Red
+           (4WPB100) G:  PT-100, Blue
+
+-Measurement Labels-
+
+  Default Measurements
+    BattV
+
+  CNR1 Net Radiometer
+    SwUp
+    SwDo
+    LwUp
+    LwDo
+    CNR1TC
+    CNR1TK
+    NRadSw
+    NRadLw
+    Albedo
+    UpTot
+    DnTot
+    NetTot
+    LwUpCo
+    LwDoCo

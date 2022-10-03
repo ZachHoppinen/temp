@@ -1,0 +1,117 @@
+'CR1000X
+
+'Wiring
+'WIRE 1:
+'Red / Diff 1
+'Blue / Diff 2 / jumper to gnd
+
+'White / Diff 3
+'Green / Diff 4 / jumper to gnd
+
+'Brown / Diff 5
+'Yellow / Diff 6 / jumper to gnd
+
+'Purple / Diff 7
+'Grey / Diff 8 / jumper to gnd
+
+'Grey Clear / GND
+
+'WIRE 2:
+'4WPB100 / Diff 9 + 10 + gnd / Black Wire to Vx1
+'Red - L 4WPB100
+'Blue  G 4WPB100
+
+'White / Diff 11
+'Green / Diff 12
+
+'Grey Clear / GND
+
+'Declare Variables and Units
+Public Batt_Volt
+Public SR01Up
+Public SR01Dn
+Public IR01Up
+Public IR01Dn
+Public NR01TC
+Public NR01TK
+Public NetRs
+Public NetRl
+Public Albedo
+Public UpTot
+Public DnTot
+Public NetTot
+Public IR01UpCo
+Public IR01DnCo
+Units Batt_Volt=Volts
+Units SR01Up=W/m2
+Units SR01Dn=W/m2
+Units IR01Up=W/m2
+Units IR01Dn=W/m2
+Units NR01TC=Deg C
+Units NR01TK=K
+Units NetRs=W/m2
+Units NetRl=W/m2
+Units Albedo=W/m2
+Units UpTot=W/m2
+Units DnTot=W/m2
+Units NetTot=W/m2
+Units IR01UpCo=W/m2
+Units IR01DnCo=W/m2
+'Typical data on the calibration sheet might be
+'Sensitivity µV/W/m^2
+'Pyranometer UP SR01 15.35
+'Pyranometer DOWN SR01 13.30
+'Pyrgeometer UP IR01 8.5
+'Pyrgeometer DOWN IR01 8.2
+'So load the four calibration coefficients specific to this sensor (1000/Sensitivity)
+Const SR01Upcal = 65.146
+Const SR01Downcal = 75.18
+Const IR01Upcal = 117.65
+Const IR01Downcal = 121.95
+'Appendix A. Example Programs
+'A-3
+'Define Data Tables
+DataTable(Hourly,True,-1)
+ DataInterval(0,60,Min,10)
+ Average(1,SR01Up,FP2,False)
+ Average(1,SR01Dn,FP2,False)
+ Average(1,IR01Up,FP2,False)
+ Average(1,IR01Dn,FP2,False)
+ Average(1,NR01TC,FP2,False)
+ Average(1,NR01TK,FP2,False)
+ Average(1,NetRs,FP2,False)
+ Average(1,NetRl,FP2,False)
+ Average(1,Albedo,FP2,False)
+ Average(1,UpTot,FP2,False)
+ Average(1,DnTot,FP2,False)
+ Average(1,NetTot,FP2,False)
+ Average(1,IR01UpCo,FP2,False)
+ Average(1,IR01DnCo,FP2,False)
+EndTable
+'Main Program
+BeginProg
+ Scan(2,Sec,1,0)
+ 'Default Data Logger Battery Voltage measurement Batt_Volt:
+ Battery(Batt_Volt)
+ 'NR01 Net Radiometer measurements SR01Up, SR01Dn, IR01Up, IR01Dn, NR01TC, NR01TK,
+ 'NetRs, NetRl, Albedo, UpTot, DnTot, NetTot, IR01UpCo, and IR01DnCo
+ 'For the CR1000X, use autorange for the SR01 measurements due to the wide dynamic range
+ VoltDiff(SR01Up,1,autorange,1,True,0,50,SR01Upcal,0)
+ VoltDiff(SR01Dn,1,autorange,2,True,0,50,SR01Downcal,0)
+ VoltDiff(IR01Up,1,AutoRange,3,True,0,50,IR01Upcal,0)
+ VoltDiff(IR01Dn,1,AutoRange,4,True,0,50,IR01Downcal,0)
+ BrHalf4W (NR01TC,1,mV200,mV200,5,Vx1,1,2100,True ,True ,0,15000,1.0,0)
+ PRT(NR01TC,1,NR01TC,1,0)
+ NR01TK=NR01TC+273.15
+ NetRs=SR01Up-SR01Dn
+ NetRl=IR01Up-IR01Dn
+ Albedo=SR01Dn/SR01Up
+ UpTot=SR01Up+IR01Up
+ DnTot=SR01Dn+IR01Dn
+ NetTot=UpTot-DnTot
+ IR01UpCo=IR01Up+5.67*10^-8*NR01TK^4
+ IR01DnCo=IR01Dn+5.67*10^-8*NR01TK^4
+ 'Call Data Tables and Store Data
+ CallTable(Hourly)
+ NextScan
+EndProg
