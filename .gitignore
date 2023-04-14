@@ -11,3 +11,6 @@ figures/animations/*.gif
 */*/banner/
 modeling/apps/
 data/year1/banner/
+
+*.parq
+*.pyc
