@@ -1,0 +1,202 @@
+'Campbell Scientific Datalogger Program
+'Dry Creek Experimental Watershed, Boise State University, Dept Geoscience, Dr. James McNamara
+'
+'CR1, Lower Weather, Dry Creek Experimental Watershed
+
+ '************* WIRING ******************************
+
+'4 COMPONENT RADIOMETER:
+'
+'SE Channel 9 and 10 (Diff 5)=  4comp radiometer cable 1, SE9-red-py up sig, 
+'SE10-white-py down sig
+'Shield = 4comp radiometer cable 1 ground-blue-py up ref
+'SE Channel 11 and 12 (Diff 6)=  4comp radiometer cable 1, SE11-brown pu up sig, 
+'SE12-orange-pu d sig
+'Shield = 4comp radiometer cable 1 ground-green-py d ref
+'Shield = 4comp radiometer cable 1 ground -yellow and grey-pu up ref, pu d ref
+'G = 4comp radiometer cable 1, ground-black wrapped wire ^^^^^ white shield is clipped,
+'
+'SE Channel 13 and 14 (Diff 7)= 'SE13-white pt100 sig, SE14-green (lime) pt100 sig ref,
+'SE Channel 15 = 4WPB100 bridge module,4comp radiometer cable 2, 8H empty   
+'
+'ABOVE SE 13,14.=,15,16 IS FROM TL AND FOUND TO BE IN ERROR FOR LW: 
+'Ch13, 14 = 13 empty for H of module, 14 is for L of module; 
+'into the bridge module with red as is in L and blue in ground.
+'4WPB100 bridge module,4comp radiometer cable 2, 8L red (current excite) 
+'4WPB100 bridge module,4comp radiometer cable 2, ground blue (current return), AG
+'
+'Ch 15, 16  = thin white wire in high, thin lime green wire in low. 
+ '
+ 'G = 4comp radiometer cable 2, black wrapped wire in ground, SEE BELOW ^^^^^ 
+'
+ 'orange and grey are wrapped togeth ina plastic sleeve and loose. 'should be to ground
+'
+'4comp radiometer cable 2, brown wire Is loose, yellow Is loose,
+'brown is heater power SW 12v *, yellow is heater ground.
+'Shield = 
+
+'
+'************************************************
+'EX3 = delay at 0 mv for soil; rain gages-2500mv; 4component-2100mv;4WPB100 bridge module 4comp radiometer cable 2 -black wire from the module;
+'
+'G = 4comp radiometer cable 2, black wrapped wire in ground ^^^^^
+'
+'CRBasic angle units are in Radians by default.
+AngleDegrees 'Switch to Degrees as CR10 used Degrees.
+'
+'***Radiometer****
+Public SR01UP 'Shortwave Incomming, upward facing pyranometer
+Public SR01Dn 'Shortwave Outgoing
+Public IR01Up 'Longwave Incoming
+Public IR01Dn  'Longwave Outgoing
+Public NR01TC 'Radiometer Temperature, celsius
+Public NR01TK  'kelvin
+'Public NetRs  'Net Shortwave
+'Public NetR1  'Net Longwave
+'Public Albedo   'Albedo
+'Public UpTot 'Total Incoming
+'Public DnTot 'Total Outgoing
+'Public NetTot   'Net Radiation
+Public IR01UpCo  'Temperature corrected Incoming and Outgoing Longwave Radiation
+Public IR01DnCo
+'the following variable allows for restriction of solar input to nonnegative values
+Public SR01UpPos
+'
+'ALIAS:
+'Both the original variable name and the Alias assignment can be used within the datalogger program.
+'If the variable Is declared As a Public variable, the Alias Is used in the Public table. The Alias Is also
+'used As the root name For Data table field names.The Maximum 'character length Is 39. when outputting the 
+'Alias To a Data table, the suffix containing the output type '(e.g., _avg) Is appended To the end of the variable name 
+'(Sample outputs have no suffix). Aliases allow using arrays for measurement AND processing, yet allows also
+'individually named meas.'Although the Alias OR the variable name can be used within the datalogger program,
+' If another device sends a request For a variable, the Alias must be used in that request.
+'
+'Alias 
+
+'Declare Units
+'
+Units SR01UP=W/m2
+Units SR01Dn=W/m2
+Units IR01Up=W/m2
+Units IR01Dn=W/m2
+Units NR01TC=DegC
+Units NR01TK=K
+'Units NetRs=W/m2
+'Units NetR1=W/m2
+'Units Albedo=W/m2
+'Units UpTot=W/m2
+'Units DnTot=W/m2
+'Units NetTot=W/m2
+Units IR01UpCo=W/m2
+Units IR01DnCo=W/m2
+Units SR01UpPos=W/m2
+
+'\\\\\\\\\\\\\\\\\\\\\\\ DECLARE CONSTANTS /////////////////////////////
+'Radiometer calibration. All NR01 sensors have different calibration factors.  Consult certificate of calibration, to determine constants 
+'Divide 1000 by 'sensitivity' to get multiplier for each sensor in correct units. e.g. if sensitivity is 21.2 take 1000/21.2 to attain 47.170  
+Const SR01Upcal = 68.965517 'this has been in error, according to the calibration certif. actual value is 68.965517  not  67.1141
+Const SR01Downcal = 79.3651
+Const IR01Upcal = 101.01
+Const IR01Downcal = 91.7431 'These cal values are for TL
+'
+'Constants for soil moisture sensors and others are...included in progam.
+'
+Const scanrate = 60 'in seconds; scan rate (scan interval) is declared herein due to it's usage in outputs such as wind speed, wind run and storm pcp
+'1 minute scan needed for optimum measurement of wind gusts. Solar rad also uses avg.
+'
+'\\\\\\\\\\\\\\\\\\\\\\\\ DEFINE OUTPUT TABLES ////////////////////////
+'
+'defined interval output tables:
+DataTable(Radc_Table15,true,-1)' 15 minute data, originally airT, rh, wind rain, wtrlvl solar.
+  'If a -1 is entered, all memory that remains after creating fixed-sized tables will be allocated to this table.
+  'If multiple DataTables are declared with a -1 For size, the available memory will be divided among the tables.
+  'The datalogger attempts To allocate memory To the tables so that all tables are filled at the same time.
+  OpenInterval
+  'Typically,r.e. time series data (averages, totals, maximums, etc.), will incl all meas since last data storage. This results in 
+  'all measurements being included in the time series data since the last time data was stored (even though the data may span multiple output intervals). 
+  DataInterval(0,15,Min,10)'transformer emplaced 10 for lapses, same as SCR program hourly data
+  '  If a Lapse has occurred, a time stamp Is stored along with the data. The Lapse argument allocates the additional
+  '  memory in the Data table For tracking these lapses AND storing the timestamp (For a more complete discussion of
+  '  lapses, see Lapses). Entering a zero will cause every record in the DataTable To be time stamped, which requires
+  '  an additional 16 bytes per record.
+  '
+  'Radiometer
+   Average (1,SR01UP,FP2,False)
+   Average (1,SR01Dn,FP2,False)
+   Average (1,IR01Up,FP2,False)
+   Average (1,IR01Dn,FP2,False)
+   Average (1,NR01TC,FP2,False)
+   Average (1,NR01TK,FP2,False)
+'   Average (1,NetRs,FP2,False)
+'   Average (1,NetR1,FP2,False)
+'   Average (1,Albedo,FP2,False)
+'   Average (1,UpTot,FP2,False)
+'   Average (1,DnTot,FP2,False)
+'   Average (1,NetTot,FP2,False)
+   Average (1,IR01UpCo,FP2,False)
+   Average (1,IR01DnCo,FP2,False) 
+   Average(1,SR01UpPos,FP2,False)
+
+EndTable 'Table15, 15 min data
+'  
+'\\\\\\\\\\\\\\\\\\\\\\\\\ SUBROUTINES //////////////////////////
+'
+'\\\\\\\\\\\\\\\\\\\\\\\\\\\ PROGRAM ////////////////////////////
+BeginProg
+  'older comments are placed below program instructions throughout most of this program, as are explanations;  new comments, esp sensor introductions are
+  '...placed prior to instructions.
+  Scan(scanrate,Sec,3, 0) 'original program began with 5 sec scan for Table 1, then used 10 sec scan for Table 2 that included wind.  Wind pulse count is 
+    '...affected by scan rate, therefore, using 10 sec scan, esp to ensure time for new sensors added to this new program.  
+    ''Scan(interval, units, buffer, count); buffer >= 3  dl uses 3 or more buffers, larger buffers are useful for lengthy processing or when communications
+    'may interrupt, CAUTION FOR PROCESSING LONGER THAN BUFFER ALLOCATED-SKIPPED SCANS MAY OCCUR; count = 0 for infinite looping.
+
+'---MAIN WEATHER STATION BATTERY VOLTAGE, ALSO SUPPLIES RADIO
+    'Battery(LWBat)
+   	     
+'---4 COMPONENT RADIOMETER---	 
+	     '10/15/13 changed all ranges for 4 comp to auto range after discussion with Sasha at CSci,  Solar in appeared to be limited above 800W/m2
+	     'HOWEVER, compiled failed herein 'cannot autorange with meas offset, therefore changed from True to False
+'        
+   ' VoltSe(SR01UP,1,mv5000,9,True,0,_50Hz,SR01Upcal,0)  'SE (SE9-12; loggernet uses auto range for all 4 w 50 hz rejection.
+     VoltSe(SR01UP,1,AutoRange,9,False,0,_50Hz,SR01Upcal,0)
+   ' for non negative short in
+     VoltSe(SR01UpPos,1,AutoRange,9,False,0,_50Hz,SR01Upcal,0) 
+       'Short Out
+    'VoltSe(SR01Dn,1,mV7_5,10,True,0,_50Hz,SR01Downcal,0) 
+     VoltSe(SR01Dn,1,AutoRange,10,False,0,_50Hz,SR01Downcal,0)
+        'Long In
+   ' VoltSe(IR01Up,1,mV7_5,11,True,0,_50Hz,IR01Upcal,0)
+     VoltSe(IR01Up,1,AutoRange,11,False,0,_50Hz,IR01Upcal,0)
+        'Long Out
+    'VoltSe(IR01Dn,1,mV7_5,12,True,0,_50Hz,IR01Downcal,0)
+     VoltSe(IR01Dn,1,AutoRange,12,False,0,_50Hz,IR01Downcal,0)
+        'Radiometer Temp
+    BrHalf4W(NR01TC,1,mV25,mV25,7,Vx3,1,2100,True,True,0,250,1,0)'diff channel 7 (SE 13-14); 
+        '080813 changed mult for temp below to -1 due to negative output occurring in temp C
+    PRT(NR01TC,1,NR01TC,-1,0)'The PRT instruction is used to calculate temperature from the resistance of an RTD.
+    NR01TK=NR01TC+273.15
+          'Net Shortwave
+'    NetRs=SR01UP-SR01Dn
+'        'Net Longwave
+'    NetR1=IR01Up-IR01Dn
+'        'Albedo
+'    Albedo=SR01Dn/SR01UP
+'        'Total Incomming
+'    UpTot=SR01UP+IR01Up
+'        'Total Outgoing
+'    DnTot=SR01Dn+IR01Dn
+'        'Net Radiation
+'    NetTot=UpTot-DnTot
+        'Temp Corrected Incoming Longwave
+    IR01UpCo=IR01Up+5.67*10^-8*NR01TK^4
+       'Temp Corrected Outgoing Longwave
+    IR01DnCo=IR01Dn+5.67*10^-8*NR01TK^4
+      ' below after correction
+'sets negative values to zero
+If SR01UpPos <0  Then SR01UpPos=0
+'
+
+CallTable Radc_Table15   
+
+NextScan
+EndProg

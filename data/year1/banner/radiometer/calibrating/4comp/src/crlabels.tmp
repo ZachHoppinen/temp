@@ -1,0 +1,125 @@
+----------------------------------------------------
+Table: Table1
+Interval: 60 MIN
+Fields:
+ SwUp_Avg	Units: W/m^2
+ SwDo_Avg	Units: W/m^2
+ LwUp_Avg	Units: W/m^2
+ LwDo_Avg	Units: W/m^2
+ CNR1TC_Avg	Units: Deg C
+ NRadSw_Avg	Units: W/m^2
+ NRadLw_Avg	Units: W/m^2
+ Albedo_Avg	Units: W/m^2
+ LwUpCo_Avg	Units: W/m^2
+ LwDoCo_Avg	Units: W/m^2
+
+----------------------------------------------------
+Table: Table2
+Interval: 1440 MIN
+Fields:
+ BattV_Min	Units: Volts
+ SwUp_Avg	Units: W/m^2
+ SwDo_Avg	Units: W/m^2
+ LwUp_Avg	Units: W/m^2
+ LwDo_Avg	Units: W/m^2
+ CNR1TC_Avg	Units: Deg C
+ CNR1TK_Avg	Units: K
+ NRadSw_Avg	Units: W/m^2
+ NRadLw_Avg	Units: W/m^2
+ Albedo_Avg	Units: W/m^2
+ UpTot_Avg	Units: W/m^2
+ DnTot_Avg	Units: W/m^2
+ NetTot_Avg	Units: W/m^2
+ LwUpCo_Avg	Units: W/m^2
+ LwDoCo_Avg	Units: W/m^2
+ SwUp_Max	Units: W/m^2
+ SwUp_TMx	Units: W/m^2
+ SwDo_Max	Units: W/m^2
+ SwDo_TMx	Units: W/m^2
+ LwUp_Max	Units: W/m^2
+ LwUp_TMx	Units: W/m^2
+ LwDo_Max	Units: W/m^2
+ LwDo_TMx	Units: W/m^2
+ CNR1TC_Max	Units: Deg C
+ CNR1TC_TMx	Units: Deg C
+ CNR1TK_Max	Units: K
+ CNR1TK_TMx	Units: K
+ NRadSw_Max	Units: W/m^2
+ NRadSw_TMx	Units: W/m^2
+ NRadLw_Max	Units: W/m^2
+ NRadLw_TMx	Units: W/m^2
+ Albedo_Max	Units: W/m^2
+ Albedo_TMx	Units: W/m^2
+ UpTot_Max	Units: W/m^2
+ UpTot_TMx	Units: W/m^2
+ DnTot_Max	Units: W/m^2
+ DnTot_TMx	Units: W/m^2
+ NetTot_Max	Units: W/m^2
+ NetTot_TMx	Units: W/m^2
+ LwUpCo_Max	Units: W/m^2
+ LwUpCo_TMx	Units: W/m^2
+ LwDoCo_Max	Units: W/m^2
+ LwDoCo_TMx	Units: W/m^2
+ SwUp_Min	Units: W/m^2
+ SwUp_TMn	Units: W/m^2
+ SwDo_Min	Units: W/m^2
+ SwDo_TMn	Units: W/m^2
+ LwUp_Min	Units: W/m^2
+ LwUp_TMn	Units: W/m^2
+ LwDo_Min	Units: W/m^2
+ LwDo_TMn	Units: W/m^2
+ CNR1TC_Min	Units: Deg C
+ CNR1TC_TMn	Units: Deg C
+ CNR1TK_Min	Units: K
+ CNR1TK_TMn	Units: K
+ NRadSw_Min	Units: W/m^2
+ NRadSw_TMn	Units: W/m^2
+ NRadLw_Min	Units: W/m^2
+ NRadLw_TMn	Units: W/m^2
+ Albedo_Min	Units: W/m^2
+ Albedo_TMn	Units: W/m^2
+ UpTot_Min	Units: W/m^2
+ UpTot_TMn	Units: W/m^2
+ DnTot_Min	Units: W/m^2
+ DnTot_TMn	Units: W/m^2
+ NetTot_Min	Units: W/m^2
+ NetTot_TMn	Units: W/m^2
+ LwUpCo_Min	Units: W/m^2
+ LwUpCo_TMn	Units: W/m^2
+ LwDoCo_Min	Units: W/m^2
+ LwDoCo_TMn	Units: W/m^2
+ SwUp_Std	Units: W/m^2
+ SwDo_Std	Units: W/m^2
+ LwUp_Std	Units: W/m^2
+ LwDo_Std	Units: W/m^2
+ CNR1TC_Std	Units: Deg C
+ CNR1TK_Std	Units: K
+ NRadSw_Std	Units: W/m^2
+ NRadLw_Std	Units: W/m^2
+ Albedo_Std	Units: W/m^2
+ UpTot_Std	Units: W/m^2
+ DnTot_Std	Units: W/m^2
+ NetTot_Std	Units: W/m^2
+ LwUpCo_Std	Units: W/m^2
+ LwDoCo_Std	Units: W/m^2
+
+----------------------------------------------------
+Table: Public
+Event Driven Output (No Interval) 
+Fields:
+ BattV	Units: Volts
+ SwUp	Units: W/m^2
+ SwDo	Units: W/m^2
+ LwUp	Units: W/m^2
+ LwDo	Units: W/m^2
+ CNR1TC	Units: Deg C
+ CNR1TK	Units: K
+ NRadSw	Units: W/m^2
+ NRadLw	Units: W/m^2
+ Albedo	Units: W/m^2
+ UpTot	Units: W/m^2
+ DnTot	Units: W/m^2
+ NetTot	Units: W/m^2
+ LwUpCo	Units: W/m^2
+ LwDoCo	Units: W/m^2
+
